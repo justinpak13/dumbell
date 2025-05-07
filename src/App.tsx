@@ -6,11 +6,41 @@ import "./App.css";
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
   const [name, setName] = useState("");
+  const [state, setState] = useState("dog");
+
+  const [list, setList] = useState([]);
 
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
+    setGreetMsg(await invoke("shit", { name }));
   }
+
+  async function getState() {
+    invoke("change_state")
+  }
+
+  async function changeState() {
+    setState(await invoke("get_state", {state}))
+  }
+
+  async function set_list() {
+    setList(await invoke("get_list", {list}))
+  }
+
+  let content;
+  if (state == "Rock") {
+    content = <p>"do you smell"</p>
+  } else {
+    content = <p>"not rock"</p>
+  }
+
+  set_list();
+
+  const listItems = list.map(item =>
+    <li key={item}>
+      {item}
+    </li>
+  );
 
   return (
     <main className="container">
@@ -34,6 +64,8 @@ function App() {
         onSubmit={(e) => {
           e.preventDefault();
           greet();
+          changeState();
+          getState();
         }}
       >
         <input
@@ -44,6 +76,16 @@ function App() {
         <button type="submit">Greet</button>
       </form>
       <p>{greetMsg}</p>
+      <p>{state}</p>
+      {content}
+      {listItems}
+
+
+
+
+      <div className="row">
+        <p></p>
+      </div>
     </main>
   );
 }
