@@ -3,28 +3,67 @@
 import { useState } from "react";
 import "./App.css";
 
-const [page, setPage] = useState("home");
+function Home() {
+  return (
+    <main>
+      <p> Home </p>
+    </main>
+  );
+}
 
-function changePage()
+function CurrentWorkout() {
+  return (
+    <main>
+      <p> CurrentWorkout </p>
+    </main>
+  );
+}
+
+function Progress() {
+  return (
+    <main>
+      <p> Progress </p>
+    </main>
+  );
+}
+
+function Settings() {
+  return (
+    <main>
+      <p> Settings </p>
+    </main>
+  );
+}
 
 function App() {
+  const [currentScreen, setCurrentScreen] = useState("home");
+
+  const renderScreen = () => {
+    switch (currentScreen) {
+      case 'current_workout': return <CurrentWorkout />
+      case 'progress': return <Progress />
+      case 'settings': return <Settings />
+      default: return <Home />
+    }
+  }
+
   return (
     <main className="container">
       <h1>Dumbell</h1>
 
-      <p>{page}</p>
-      <div className="row">
-        <button type="submit">home</button>
-        <button type="submit">current workout</button>
-        <button type="submit">progress</button>
-        <button type="submit">settings</button>
-      </div>
-
 
       <div className="row">
-        <p></p>
+        {renderScreen()}
       </div>
-    </main>
+
+      <div className="row">
+        <button onClick={() => setCurrentScreen('home')} type="submit">home</button>
+        <button onClick={() => setCurrentScreen('current_workout')} type="submit">current workout</button>
+        <button onClick={() => setCurrentScreen('progress')} type="submit">progress</button>
+        <button onClick={() => setCurrentScreen('settings')} type="submit">settings</button>
+      </div>
+
+    </main >
   );
 }
 
